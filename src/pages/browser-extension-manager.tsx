@@ -2,9 +2,8 @@ import logo from 'assets/browser-extension-manager/logo.svg'
 import moon from 'assets/browser-extension-manager/icon-moon.svg'
 import sun from 'assets/browser-extension-manager/icon-moon.svg'
 import { data } from 'assets/browser-extension-manager/data'
-
-import { clsx } from 'clsx'
-import { cn } from '@/libs/cn'
+import { cn, tw } from '@/libs/cn'
+import { useState } from 'react'
 
 type Variant = 'primary' | 'remove';
 
@@ -17,10 +16,10 @@ type ButtonProps = {
 
 const Button = (props: ButtonProps) => {
     const { children, onClick, className = "", variant } = props;
-    const shadowStyle = clsx("shadow-[0_1px_2px_0_rgba(184,196,215,0.40)]");
+    const shadowStyle = tw("shadow-[0_1px_2px_0_rgba(184,196,215,0.40)]");
     const variantStyles: Record<Variant, string> = {
-        primary: clsx('rounded-[62.4375rem] border-[1px] border-[#D6E2F5] bg-[#FBFDFE]  pt-2 pr-5 pb-[0.625rem] pl-[1.25rem] text-[1.25rem] font-[500]', shadowStyle),
-        remove: clsx('rounded-[62.4375rem] border-[1px] border-[#C6C6C6] bg-[#FBFDFE py-2 px-4 text-[1.25rem] font-[500]')
+        primary: cn('rounded-[62.4375rem] border-[1px] border-[#D6E2F5] bg-[#FBFDFE]  pt-2 pr-5 pb-[0.625rem] pl-[1.25rem] text-[1.25rem] font-[500]', shadowStyle),
+        remove: tw('rounded-[62.4375rem] border-[1px] border-[#C6C6C6] bg-[#FBFDFE py-2 px-4 text-[1.25rem] font-[500]'),
     }
     return (
         <button onClick={onClick} className={cn(variantStyles[variant], className)}>
@@ -30,6 +29,9 @@ const Button = (props: ButtonProps) => {
 }
 
 const BrowserExtension = () => {
+    const [currentData, setCurrentData] = useState(data);
+    const [buttonState, setButtonState] = useState('All');
+
     return (
         <>
             <div className='pt-5 px-4 bg-white bg-gradient-to-b from-[#EBF2FC] to-[#EEFBF9] flex gap-10 flex-col font-NotoSans'>
@@ -43,19 +45,38 @@ const BrowserExtension = () => {
                 </div>
 
                 {/* main title  */}
-                <div className='flex flex-col gap-6'>
+                <div className='flex flex-col gap-6 md:flex-row md:justify-between'>
                     <h1 className='text-[2.125rem] font-[700] text-center'>Extensions List</h1>
                     <div className='flex gap-3'>
-                        <Button variant='primary'>All</Button>
-                        <Button variant='primary'>Active</Button>
-                        <Button variant='primary'>Inactive</Button>
+                        <Button variant='primary'
+                            className={buttonState == 'All' ? 'text-white bg-[#C7231A]' : ''}
+                            onClick={() => {
+                                setCurrentData(data);
+                                setButtonState('All');
+                            }}
+                        >All</Button>
+                        <Button variant='primary'
+                            onClick={() => {
+                                setCurrentData(data.filter(item => item.isActive == true));
+                                setButtonState('Active');
+                            }}
+                            className={buttonState == 'Active' ? 'text-white bg-[#C7231A]' : ''}
+                        >Active</Button>
+                        <Button
+                            variant='primary'
+                            onClick={() => {
+                                setCurrentData(data.filter(item => item.isActive == false));
+                                setButtonState('Inactive');
+                            }}
+                            className={buttonState == 'Inactive' ? 'text-white bg-[#C7231A]' : ''}
+                        >Inactive</Button>
                     </div>
                 </div>
 
                 {/* card list  */}
                 <div className='grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3'>
                     {
-                        data.map((item, index) => {
+                        currentData.map((item, index) => {
                             return (
                                 <div key={index.toString() + item.name}
                                     className='rounded-[1.25rem] border border-[#D6E2F5] bg-[#FBFDFE] shadow-[0_2px_2px_0_rgba(194,206,225,0.20),0_1px_5px_1px_rgba(194,206,225,0.22)] p-5 flex flex-col gap-6'
@@ -69,9 +90,11 @@ const BrowserExtension = () => {
                                         </div>
                                     </div>
                                     {/* button  */}
-                                    <div className='flex justify-between'>
+                                    <div className='flex justify-between items-center'>
                                         <Button variant='remove'>Remove</Button>
-                                        <Button variant='remove'>Enable</Button>
+                                        <div className='w-[2.25rem] h-[1.25rem] p-[0.125rem] flex justify-end rounded-[624.9375rem] bg-[#C7231A] hover:cursor-pointer'>
+                                            <span className="size-[1rem] rounded-[624.9375rem] bg-[#FBFDFE] shadow-[0_1px_3px_0_rgba(10,13,18,0.30),0_1px_2px_-1px_rgba(10,13,18,0.30)]"></span>
+                                        </div>
                                     </div>
                                 </div>
                             )
