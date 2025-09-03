@@ -1,0 +1,86 @@
+import logo from 'assets/browser-extension-manager/logo.svg'
+import moon from 'assets/browser-extension-manager/icon-moon.svg'
+import sun from 'assets/browser-extension-manager/icon-moon.svg'
+import { data } from 'assets/browser-extension-manager/data'
+
+import { clsx } from 'clsx'
+import { cn } from '@/libs/cn'
+
+type Variant = 'primary' | 'remove';
+
+type ButtonProps = {
+    children: React.ReactNode,
+    onClick?: () => void,
+    className?: string,
+    variant: Variant,
+}
+
+const Button = (props: ButtonProps) => {
+    const { children, onClick, className = "", variant } = props;
+    const shadowStyle = clsx("shadow-[0_1px_2px_0_rgba(184,196,215,0.40)]");
+    const variantStyles: Record<Variant, string> = {
+        primary: clsx('rounded-[62.4375rem] border-[1px] border-[#D6E2F5] bg-[#FBFDFE]  pt-2 pr-5 pb-[0.625rem] pl-[1.25rem] text-[1.25rem] font-[500]', shadowStyle),
+        remove: clsx('rounded-[62.4375rem] border-[1px] border-[#C6C6C6] bg-[#FBFDFE py-2 px-4 text-[1.25rem] font-[500]')
+    }
+    return (
+        <button onClick={onClick} className={cn(variantStyles[variant], className)}>
+            {children}
+        </button>
+    )
+}
+
+const BrowserExtension = () => {
+    return (
+        <>
+            <div className='pt-5 px-4 bg-white bg-gradient-to-b from-[#EBF2FC] to-[#EEFBF9] flex gap-10 flex-col font-NotoSans'>
+                {/* header */}
+                <div className='flex justify-between rounded-[0.625rem] border-[1px] border-[#D6E2F5] py-[0.5rem] px-[0.75rem]
+                bg-[#FBFDFE] shadow-[0_2px_3px_0_#D9E5F4]'>
+                    <img src={logo} alt="logo" />
+                    <div className='w-[3.125rem] h-[3.125rem] rounded-[0.75rem] bg-[#EEE] flex items-center justify-center'>
+                        <img src={moon} alt="moon-icon" />
+                    </div>
+                </div>
+
+                {/* main title  */}
+                <div className='flex flex-col gap-6'>
+                    <h1 className='text-[2.125rem] font-[700] text-center'>Extensions List</h1>
+                    <div className='flex gap-3'>
+                        <Button variant='primary'>All</Button>
+                        <Button variant='primary'>Active</Button>
+                        <Button variant='primary'>Inactive</Button>
+                    </div>
+                </div>
+
+                {/* card list  */}
+                <div className='grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3'>
+                    {
+                        data.map((item, index) => {
+                            return (
+                                <div key={index.toString() + item.name}
+                                    className='rounded-[1.25rem] border border-[#D6E2F5] bg-[#FBFDFE] shadow-[0_2px_2px_0_rgba(194,206,225,0.20),0_1px_5px_1px_rgba(194,206,225,0.22)] p-5 flex flex-col gap-6'
+                                >
+                                    {/* main card  */}
+                                    <div className='flex gap-4 items-start'>
+                                        <img src={item.logo} alt="item-logo" />
+                                        <div className='mb-2'>
+                                            <h1 className='text-[1.25rem] font-[700]'>{item.name}</h1>
+                                            <p className='text-[#535868]'>{item.description}</p>
+                                        </div>
+                                    </div>
+                                    {/* button  */}
+                                    <div className='flex justify-between'>
+                                        <Button variant='remove'>Remove</Button>
+                                        <Button variant='remove'>Enable</Button>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default BrowserExtension;
