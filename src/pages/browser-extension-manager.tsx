@@ -44,6 +44,45 @@ const BrowserExtension = () => {
         }
     }, [])
 
+    // Dark mode toggle handler
+    const toggleDarkMode = () => {
+        const newDarkMode = !isDark;
+        localStorage.theme = newDarkMode ? 'dark' : 'light';
+        document.documentElement.classList.toggle('dark', newDarkMode);
+        setIsDark(newDarkMode);
+    };
+
+    // Filter handler
+    const handleFilterChange = (filterType: string) => {
+        setButtonState(filterType);
+        switch (filterType) {
+            case 'All':
+                setCurrentData(data);
+                break;
+            case 'Active':
+                setCurrentData(data.filter(item => item.isActive === true));
+                break;
+            case 'Inactive':
+                setCurrentData(data.filter(item => item.isActive === false));
+                break;
+        }
+    };
+
+    // Remove extension handler
+    const handleRemoveExtension = (extensionName: string) => {
+        setCurrentData(currentData.filter(element => element.name !== extensionName));
+    };
+
+    // Toggle active status handler
+    const handleToggleActive = (extensionName: string, newStatus: boolean) => {
+        setCurrentData(currentData.map(element => {
+            if (element.name === extensionName) {
+                element.isActive = newStatus;
+            }
+            return element;
+        }));
+    };
+
     return (
         <>
             <div
@@ -55,12 +94,7 @@ const BrowserExtension = () => {
                     <img src={logo} alt="logo" />
                     <div
                         className='w-[3.125rem] h-[3.125rem] rounded-[0.75rem] bg-[#EEE] flex items-center justify-center hover:bg-[#C6C6C6] hover:cursor-pointer focus:ring-2 focus:ring-red-500'
-                        onClick={() => {
-                            const newDarkMode = !isDark;
-                            localStorage.theme = newDarkMode ? 'dark' : 'light';
-                            document.documentElement.classList.toggle('dark', newDarkMode);
-                            setIsDark(newDarkMode);
-                        }}
+                        onClick={toggleDarkMode}
                     >
                         <img src={isDark ? sun : moon} alt="moon/soon-icon" />
                     </div>
@@ -72,24 +106,15 @@ const BrowserExtension = () => {
                     <div className='flex gap-3 justify-center'>
                         <Button variant='primary'
                             className={buttonState == 'All' ? 'text-white bg-[#C7231A] dark:text-[#091540] dark:bg-[#F25C54]' : ''}
-                            onClick={() => {
-                                setCurrentData(data);
-                                setButtonState('All');
-                            }}
+                            onClick={() => handleFilterChange('All')}
                         >All</Button>
                         <Button variant='primary'
-                            onClick={() => {
-                                setCurrentData(data.filter(item => item.isActive == true));
-                                setButtonState('Active');
-                            }}
+                            onClick={() => handleFilterChange('Active')}
                             className={buttonState == 'Active' ? 'text-white bg-[#C7231A] dark:text-[#091540] dark:bg-[#F25C54]' : ''}
                         >Active</Button>
                         <Button
                             variant='primary'
-                            onClick={() => {
-                                setCurrentData(data.filter(item => item.isActive == false));
-                                setButtonState('Inactive');
-                            }}
+                            onClick={() => handleFilterChange('Inactive')}
                             className={buttonState == 'Inactive' ? 'text-white bg-[#C7231A] dark:text-[#091540] dark:bg-[#F25C54]' : ''}
                         >Inactive</Button>
                     </div>
@@ -116,36 +141,21 @@ const BrowserExtension = () => {
                                         <Button
                                             className='hover:bg-[#C7231A] hover:text-white dark:text-[#FBFDFE]'
                                             variant='remove'
-                                            onClick={() => {
-                                                setCurrentData(currentData.filter(element => element.name != item.name));
-                                            }}>Remove</Button>
+                                            onClick={() => handleRemoveExtension(item.name)}
+                                        >Remove</Button>
                                         {
                                             item.isActive ?
                                                 <button
                                                     className='w-[2.25rem] h-[1.25rem] p-[0.125rem] flex justify-end rounded-[624.9375rem] bg-[#C7231A] hover:cursor-pointer hover:bg-[#DE4840] focus:outline-2 focus:outline-red-500 focus:outline-offset-4
                                                     dark:bg-[#F25C54]'
-                                                    onClick={() => {
-                                                        setCurrentData(currentData.map(element => {
-                                                            if (element.name == item.name) {
-                                                                element.isActive = false;
-                                                            }
-                                                            return element;
-                                                        }))
-                                                    }}
+                                                    onClick={() => handleToggleActive(item.name, false)}
                                                 >
                                                     <span className="size-[1rem] rounded-[624.9375rem] bg-[#FBFDFE] shadow-[0_1px_3px_0_rgba(10,13,18,0.30),0_1px_2px_-1px_rgba(10,13,18,0.30)]"></span>
                                                 </button>
                                                 :
                                                 <button
                                                     className='w-[2.25rem] h-[1.25rem] p-[0.125rem] flex justify-start rounded-[624.9375rem] bg-[#C6C6C6] hover:cursor-pointer focus:outline-2 focus:outline-red-500 focus:outline-offset-4 dark:bg-[#535868]'
-                                                    onClick={() => {
-                                                        setCurrentData(currentData.map(element => {
-                                                            if (element.name == item.name) {
-                                                                element.isActive = true;
-                                                            }
-                                                            return element;
-                                                        }))
-                                                    }}
+                                                    onClick={() => handleToggleActive(item.name, true)}
                                                 >
                                                     <span className="size-[1rem] rounded-[624.9375rem] bg-[#FBFDFE] shadow-[0_1px_3px_0_rgba(10,13,18,0.30),0_1px_2px_-1px_rgba(10,13,18,0.30)]"></span>
                                                 </button>
