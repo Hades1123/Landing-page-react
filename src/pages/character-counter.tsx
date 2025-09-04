@@ -1,4 +1,5 @@
 import { cn, tw } from "@/libs/cn";
+import { CheckBox } from "@/ui/checkbox";
 import { useEffect, useState } from "react";
 
 export const CharacterCounterPage = () => {
@@ -10,6 +11,7 @@ export const CharacterCounterPage = () => {
     const [excludeSpace, setExcludeSpace] = useState<boolean>(false);
     const [charFrequency, setCharFrequency] = useState<Map<string, number>>(new Map());
     const [showAll, setShowAll] = useState(false);
+    const [isOpenCharacterLimit, setIsOpenCharacterLimit] = useState<boolean>(false);
 
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setCurrentText(event.target.value);
@@ -66,40 +68,14 @@ export const CharacterCounterPage = () => {
                 {/* options */}
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div className="flex flex-col gap-3 md:flex-row">
-                        <div className="flex items-center gap-2">
-                            <div
-                                className={cn("size-4 rounded-[0.25rem] border-[1px] border-[#12131A] flex items-center justify-center hover:cursor-pointer p-2", excludeSpace ? 'bg-[#D3A0FA] border-none' : '')}
-                                id="Exclude-Spaces-Character-Counter"
-                                onClick={() => setExcludeSpace(!excludeSpace)}
-                            >
-                                {excludeSpace && <span>
-                                    <svg
-                                        width="10"
-                                        height="8"
-                                        viewBox="0 0 10 8"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 1.5L3.5 7L1 4.5"
-                                            stroke="#12131A"
-                                            strokeWidth="1.6666"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round" />
-                                    </svg>
-                                </span>}
-                            </div>
-                            <label
-                                htmlFor="Exclude-Spaces-Character-Counter"
-                                onClick={() => setExcludeSpace(!excludeSpace)}
-                                className="hover:cursor-pointer p-2"
-                            >Exclude Spaces</label>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div
-                                id="Set-Character-Limit-Character-Counter"
-                                className="size-4 rounded-[0.25rem] border-[1px] border-[#12131A]"
-                            />
-                            <label htmlFor="Set-Character-Limit-Character-Counter">Set Character Limit</label>
-                        </div>
+                        <CheckBox
+                            checked={excludeSpace}
+                            onClick={() => setExcludeSpace(!excludeSpace)}
+                        >Exclude Spaces</CheckBox>
+                        <CheckBox
+                            checked={isOpenCharacterLimit}
+                            onClick={() => setIsOpenCharacterLimit(!isOpenCharacterLimit)}
+                        >Set Character Limit</CheckBox>
                     </div>
                     <div>Approx. reading time: {'<'}1 minute</div>
                 </div>
