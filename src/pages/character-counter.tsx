@@ -9,6 +9,7 @@ export const CharacterCounterPage = () => {
     const [sentenceCount, setSentenceCount] = useState(0);
     const [excludeSpace, setExcludeSpace] = useState<boolean>(false);
     const [charFrequency, setCharFrequency] = useState<Map<string, number>>(new Map());
+    const [showAll, setShowAll] = useState(false);
 
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setCurrentText(event.target.value);
@@ -35,8 +36,11 @@ export const CharacterCounterPage = () => {
     }, [currentText, excludeSpace]);
 
     return (
-        <div className="px-4 pt-4 pb-8 min-h-screen font-DMSans flex flex-col gap-10 bg-[#fff]">
-            <header className="flex justify-between items-center p-4">
+        <div
+            className="px-4 pt-4 pb-8 min-h-screen font-DMSans flex flex-col gap-10 bg-[#fff] md:py-[1.12rem] md:px-[2rem]
+                        lg:py-[2rem] lg:px-[14rem]"
+        >
+            <header className="flex justify-between items-center py-4">
                 {/* logo */}
                 <div className="flex gap-[0.56rem] items-center">
                     <img src="/character-counter/Group 2.svg" alt="svg" />
@@ -60,16 +64,40 @@ export const CharacterCounterPage = () => {
                 >
                 </textarea>
                 {/* options */}
-                <div className="flex flex-col gap-3">
-                    <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div className="flex flex-col gap-3 md:flex-row">
                         <div className="flex items-center gap-2">
-                            <input type="checkbox" id="Exclude-Spaces-Character-Counter" onChange={(event) => {
-                                setExcludeSpace(event.currentTarget.checked);
-                            }} />
-                            <label htmlFor="Exclude-Spaces-Character-Counter">Exclude Spaces</label>
+                            <div
+                                className={cn("size-4 rounded-[0.25rem] border-[1px] border-[#12131A] flex items-center justify-center hover:cursor-pointer p-2", excludeSpace ? 'bg-[#D3A0FA] border-none' : '')}
+                                id="Exclude-Spaces-Character-Counter"
+                                onClick={() => setExcludeSpace(!excludeSpace)}
+                            >
+                                {excludeSpace && <span>
+                                    <svg
+                                        width="10"
+                                        height="8"
+                                        viewBox="0 0 10 8"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 1.5L3.5 7L1 4.5"
+                                            stroke="#12131A"
+                                            strokeWidth="1.6666"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                    </svg>
+                                </span>}
+                            </div>
+                            <label
+                                htmlFor="Exclude-Spaces-Character-Counter"
+                                onClick={() => setExcludeSpace(!excludeSpace)}
+                                className="hover:cursor-pointer p-2"
+                            >Exclude Spaces</label>
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="checkbox" id="Set-Character-Limit-Character-Counter" />
+                            <div
+                                id="Set-Character-Limit-Character-Counter"
+                                className="size-4 rounded-[0.25rem] border-[1px] border-[#12131A]"
+                            />
                             <label htmlFor="Set-Character-Limit-Character-Counter">Set Character Limit</label>
                         </div>
                     </div>
@@ -79,19 +107,19 @@ export const CharacterCounterPage = () => {
             {/* main-content  */}
             <main>
                 {/* statics */}
-                <div className="grid grid-cols-1 gap-4 mb-6">
+                <div className="grid grid-cols-1 gap-4 mb-6 md:grid-cols-3">
                     <div className={cn(cardStyle, 'bg-[#D3A0FA]')}>
-                        <div className="font-[700] text-[2.5rem]">{totalCharacter}</div>
+                        <div className="font-[700] text-[2.5rem]">{totalCharacter.toString().padStart(2, "0")}</div>
                         <div className="text-[1.25rem] font-[400]">Total Characters</div>
                     </div>
 
                     <div className={cn(cardStyle, 'bg-[#FF9F00]')}>
-                        <div className="font-[700] text-[2.5rem]">{wordCount}</div>
+                        <div className="font-[700] text-[2.5rem]">{wordCount.toString().padStart(2, "0")}</div>
                         <div className="text-[1.25rem] font-[400]">Word Count</div>
                     </div>
 
                     <div className={cn(cardStyle, 'bg-[#FE8159]')}>
-                        <div className="font-[700] text-[2.5rem]">{sentenceCount}</div>
+                        <div className="font-[700] text-[2.5rem]">{sentenceCount.toString().padStart(2, "0")}</div>
                         <div className="text-[1.25rem] font-[400]">Sentence Count</div>
                     </div>
                 </div>
@@ -99,28 +127,49 @@ export const CharacterCounterPage = () => {
                 {/* letter density  */}
                 <div className="flex flex-col gap-5">
                     <h1 className="text-[1.5rem] font-[600]">Letter Density</h1>
-                    <div className="flex flex-col gap-4">
-                        {
-                            [...charFrequency.entries()].map(([char, count]) => (
-                                <div key={char} className="flex gap-4 h-[0.725rem] items-center">
-                                    <div className="w-1">{char}</div>
-                                    <div className="flex-1 bg-[#F2F2F7] rounded-[63rem] h-full">
-                                        <div
-                                            className="bg-[#D3A0FA] rounded-[62rem] h-full"
-                                            style={{ width: `${(count / totalCharacter) * 100}%` }}
-                                        ></div>
-                                    </div>
-                                    <div className="w-[30%] text-[1rem] text-end">{count} ({(count / totalCharacter * 100).toFixed(2)}%)</div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                    <button className="flex items-center gap-2">See more
-                        <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.71875 6.375L1.09375 1.78125C0.9375 1.65625 0.9375 1.40625 1.09375 1.25L1.71875 0.65625C1.875 0.5 2.09375 0.5 2.25 0.65625L6 4.34375L9.71875 0.65625C9.875 0.5 10.125 0.5 10.25 0.65625L10.875 1.25C11.0312 1.40625 11.0312 1.65625 10.875 1.78125L6.25 6.375C6.09375 6.53125 5.875 6.53125 5.71875 6.375Z" fill="#12131A" />
-                        </svg>
-                    </button>
-
+                    {currentText.length ?
+                        (<>
+                            <div className="flex flex-col gap-4">
+                                {
+                                    [...charFrequency.entries()]
+                                        .sort(([, a], [, b]) => b - a)
+                                        .slice(0, showAll ? undefined : 5)
+                                        .map(([char, count]) => (
+                                            <div key={char} className="flex gap-4 h-[0.725rem] items-center">
+                                                <div className="w-1">{char === ' ' ? '␣' : char}</div>
+                                                <div className="flex-1 bg-[#F2F2F7] rounded-[63rem] h-full">
+                                                    <div
+                                                        className="bg-[#D3A0FA] rounded-[62rem] h-full"
+                                                        style={{ width: `${(count / totalCharacter) * 100}%` }}
+                                                    ></div>
+                                                </div>
+                                                <div
+                                                    className="w-[30%] text-[1rem] text-end">{count} ({(count / totalCharacter * 100).toFixed(2)}%)
+                                                </div>
+                                            </div>
+                                        ))
+                                }
+                            </div>
+                            <button className="flex items-center gap-2" onClick={() => setShowAll(!showAll)}>
+                                {showAll ? "Show less" : 'Show more'}
+                                <svg
+                                    width="12"
+                                    height="7"
+                                    viewBox="0 0 12 7"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className={showAll ? 'rotate-180' : ''}
+                                >
+                                    <path
+                                        d="M5.71875 6.375L1.09375 1.78125C0.9375 1.65625 0.9375 1.40625 1.09375 1.25L1.71875 0.65625C1.875 0.5 2.09375 0.5 2.25 0.65625L6 4.34375L9.71875 0.65625C9.875 0.5 10.125 0.5 10.25 0.65625L10.875 1.25C11.0312 1.40625 11.0312 1.65625 10.875 1.78125L6.25 6.375C6.09375 6.53125 5.875 6.53125 5.71875 6.375Z"
+                                        fill="#12131A"
+                                    />
+                                </svg>
+                            </button>
+                        </>)
+                        :
+                        <p className="text-[#404254] font-[400]">No characters found. Start typing to see letter density.</p>
+                    }
                 </div>
             </main >
         </div >
