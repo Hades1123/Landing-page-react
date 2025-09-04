@@ -1,6 +1,6 @@
-import logo from 'assets/browser-extension-manager/logo.svg'
-import moon from 'assets/browser-extension-manager/icon-moon.svg'
-import sun from 'assets/browser-extension-manager/icon-sun.svg'
+import logo from '/browser-extension-manager/logo-88.svg'
+import moon from '/browser-extension-manager/icon-moon.svg'
+import sun from '/browser-extension-manager/icon-sun.svg'
 import { data } from 'assets/browser-extension-manager/data'
 import { cn, tw } from '@/libs/cn'
 import { useEffect, useState } from 'react'
@@ -18,8 +18,8 @@ const Button = (props: ButtonProps) => {
     const { children, onClick, className = "", variant } = props;
     const shadowStyle = tw("shadow-[0_1px_2px_0_rgba(184,196,215,0.40)]");
     const variantStyles: Record<Variant, string> = {
-        primary: cn('rounded-[62.4375rem] border-[1px] border-[#D6E2F5] bg-[#FBFDFE]  pt-2 pr-5 pb-[0.625rem] pl-[1.25rem] text-[1.25rem] font-[500] focus:outline-2 focus:outline-red-600 focus:outline-offset-4 dark:bg-[#2F364B] dark:border-[#535868] dark:text-[#FBFDFE]', shadowStyle),
-        remove: tw('rounded-[62.4375rem] border-[1px] border-[#C6C6C6] bg-[#FBFDFE py-2 px-4 text-[1.25rem] font-[500] focus:outline-2 focus:outline-red-500 focus:outline-offset-4'),
+        primary: cn('rounded-[62.4375rem] border-[1px] border-[#D6E2F5] bg-[#FBFDFE]  pt-2 pr-5 pb-[0.625rem] pl-[1.25rem] text-[1.25rem] font-[500] outline-none focus:outline-2 focus:outline-red-600 focus:outline-offset-4 focus:border-none focus:ring-0 dark:bg-[#2F364B] dark:border-[#535868] dark:text-[#FBFDFE]', shadowStyle),
+        remove: tw('rounded-[62.4375rem] border-[1px] border-[#C6C6C6] bg-[#FBFDFE py-2 px-4 text-[1.25rem] font-[500] outline-none focus:outline-2 focus:outline-red-500 focus:bg-[#EEE] focus:outline-offset-4 focus:border-none focus:ring-0 dark:focus:bg-[#535868]'),
     }
     return (
         <button onClick={onClick} className={cn(variantStyles[variant], className)}>
@@ -90,10 +90,13 @@ const BrowserExtension = () => {
             >
                 {/* header */}
                 <div className='flex justify-between rounded-[0.625rem] border-[1px] border-[#D6E2F5] py-[0.5rem] px-[0.75rem]
-                bg-[#FBFDFE] shadow-[0_2px_3px_0_#D9E5F4]'>
-                    <img src={logo} alt="logo" />
+                bg-[#FBFDFE] shadow-[0_2px_3px_0_#D9E5F4] dark:bg-[#202535] dark:shadow-none dark:border-none'>
+                    <div className='flex gap-[0.75rem] items-center'>
+                        <img src={logo} alt="logo" />
+                        <span className='text-[#091540] font-Geologica text-[1.25rem] font-[600] dark:text-[#FFF]'>Extensions</span>
+                    </div>
                     <div
-                        className='w-[3.125rem] h-[3.125rem] rounded-[0.75rem] bg-[#EEE] flex items-center justify-center hover:bg-[#C6C6C6] hover:cursor-pointer focus:ring-2 focus:ring-red-500'
+                        className='w-[3.125rem] h-[3.125rem] rounded-[0.75rem] bg-[#EEE] flex items-center justify-center hover:bg-[#C6C6C6] hover:cursor-pointer focus:ring-2 focus:ring-red-500 dark:bg-[#2F364B]'
                         onClick={toggleDarkMode}
                     >
                         <img src={isDark ? sun : moon} alt="moon/soon-icon" />
@@ -104,11 +107,13 @@ const BrowserExtension = () => {
                 <div className='flex flex-col gap-6 md:flex-row md:justify-between'>
                     <h1 className='text-[2.125rem] font-[700] text-center dark:text-[#FBFDFE]'>Extensions List</h1>
                     <div className='flex gap-3 justify-center'>
-                        <Button variant='primary'
+                        <Button
+                            variant='primary'
                             className={buttonState == 'All' ? 'text-white bg-[#C7231A] dark:text-[#091540] dark:bg-[#F25C54]' : ''}
                             onClick={() => handleFilterChange('All')}
                         >All</Button>
-                        <Button variant='primary'
+                        <Button
+                            variant='primary'
                             onClick={() => handleFilterChange('Active')}
                             className={buttonState == 'Active' ? 'text-white bg-[#C7231A] dark:text-[#091540] dark:bg-[#F25C54]' : ''}
                         >Active</Button>
@@ -147,14 +152,15 @@ const BrowserExtension = () => {
                                             item.isActive ?
                                                 <button
                                                     className='w-[2.25rem] h-[1.25rem] p-[0.125rem] flex justify-end rounded-[624.9375rem] bg-[#C7231A] hover:cursor-pointer hover:bg-[#DE4840] focus:outline-2 focus:outline-red-500 focus:outline-offset-4
-                                                    dark:bg-[#F25C54]'
+                                                    dark:bg-[#F25C54] outline-none'
                                                     onClick={() => handleToggleActive(item.name, false)}
                                                 >
                                                     <span className="size-[1rem] rounded-[624.9375rem] bg-[#FBFDFE] shadow-[0_1px_3px_0_rgba(10,13,18,0.30),0_1px_2px_-1px_rgba(10,13,18,0.30)]"></span>
                                                 </button>
                                                 :
                                                 <button
-                                                    className='w-[2.25rem] h-[1.25rem] p-[0.125rem] flex justify-start rounded-[624.9375rem] bg-[#C6C6C6] hover:cursor-pointer focus:outline-2 focus:outline-red-500 focus:outline-offset-4 dark:bg-[#535868]'
+                                                    className='w-[2.25rem] h-[1.25rem] p-[0.125rem] flex justify-start rounded-[624.9375rem] bg-[#C6C6C6] hover:cursor-pointer focus:outline-2 focus:outline-red-500 focus:outline-offset-4 dark:bg-[#535868]
+                                                    outline-none'
                                                     onClick={() => handleToggleActive(item.name, true)}
                                                 >
                                                     <span className="size-[1rem] rounded-[624.9375rem] bg-[#FBFDFE] shadow-[0_1px_3px_0_rgba(10,13,18,0.30),0_1px_2px_-1px_rgba(10,13,18,0.30)]"></span>

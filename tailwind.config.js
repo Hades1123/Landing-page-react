@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         NotoSans: ['"Noto Sans"', 'sans-serif'],
+        Geologica: ['"Geologica"', 'sans-serif'],
       }
     },
   },
