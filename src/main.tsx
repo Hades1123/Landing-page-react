@@ -5,6 +5,7 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { LayoutPage } from '@/layout';
 import BrowserExtension from 'pages/browser-extension-manager';
+import CharacterCounterPage from './pages/character-counter';
 
 const router = createBrowserRouter([
     {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
     {
         path: "/browser-extension-manager",
         element: <BrowserExtension />,
+    },
+    {
+        path: "/character-counter",
+        element: <CharacterCounterPage />
     }
 ]);
 

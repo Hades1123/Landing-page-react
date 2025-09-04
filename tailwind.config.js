@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         NotoSans: ['"Noto Sans"', 'sans-serif'],
         Geologica: ['"Geologica"', 'sans-serif'],
+        DMSans: ['"DM Sans"', 'sans-serif'],
       }
     },
   },
