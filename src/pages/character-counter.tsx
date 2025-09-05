@@ -161,18 +161,33 @@ export const CharacterCounterPage = () => {
                     <Card
                         total={totalCharacter}
                         className="bg-[#D3A0FA]"
+                        style={{
+                            backgroundImage: 'url(/character-counter/purple.svg)',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'right',
+                        }}
                     >
                         Total Characters
                     </Card>
                     <Card
                         total={wordCount}
                         className="bg-[#FF9F00]"
+                        style={{
+                            backgroundImage: 'url(/character-counter/yellow.svg)',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'right',
+                        }}
                     >
                         Word Count
                     </Card>
                     <Card
                         total={sentenceCount}
                         className="bg-[#FE8159]"
+                        style={{
+                            backgroundImage: 'url(/character-counter/orange.svg)',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'right',
+                        }}
                     >
                         Sentence Count
                     </Card>
