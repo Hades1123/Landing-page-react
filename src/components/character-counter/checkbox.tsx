@@ -15,7 +15,7 @@ export const CheckBox = (props: TCheckBox) => {
             onClick={onClick}
         >
             <div
-                className={cn("size-4 rounded-[0.25rem] border-[1px] border-[#12131A] flex items-center justify-center",
+                className={cn("size-4 rounded-[0.25rem] border-[1px] border-[#12131A] flex items-center justify-center dark:border-[#E4E4EF]",
                     checked ? 'bg-[#D3A0FA] border-none' : '', className)}
             >
                 {checked && <span>
