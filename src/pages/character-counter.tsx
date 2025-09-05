@@ -1,9 +1,8 @@
-import { cn, tw } from "@/libs/cn";
-import { CheckBox } from "@/ui/checkbox";
+import { CheckBox } from "@/components/character-counter/checkbox";
 import { useEffect, useState } from "react";
+import { Card } from "@/components/character-counter/card";
 
 export const CharacterCounterPage = () => {
-    const cardStyle = tw("p-[1.25rem] flex flex-col gap-2 rounded-[0.75rem] text-[#12131A]");
     const [currentText, setCurrentText] = useState("");
     const [totalCharacter, setTotalCharacter] = useState(0);
     const [wordCount, setWordCount] = useState(0);
@@ -12,30 +11,43 @@ export const CharacterCounterPage = () => {
     const [charFrequency, setCharFrequency] = useState<Map<string, number>>(new Map());
     const [showAll, setShowAll] = useState(false);
     const [isOpenCharacterLimit, setIsOpenCharacterLimit] = useState<boolean>(false);
+    const [limit, setLimit] = useState(100);
 
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setCurrentText(event.target.value);
     }
 
-    useEffect(() => {
-        if (!excludeSpace) {
-            setTotalCharacter(currentText.length);
+    const onKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (isOpenCharacterLimit && totalCharacter >= limit + 1) {
+            const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'Tab'];
+            if (!allowedKeys.includes(event.key) && !event.ctrlKey && !event.metaKey) {
+                event.preventDefault();
+            }
+        }
+    }
+    const onChangeLimit = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        if (!isNaN(+value)) {
+            setLimit(Math.min(999, +value));
         }
         else {
-            let count = 0;
-            for (let i = 0; i < currentText.length; ++i) {
-                count += currentText[i] !== ' ' ? 1 : 0;
-            }
-            setTotalCharacter(count);
+            setLimit(100);
         }
-        setWordCount(currentText.split(' ').filter(item => item != '').length);
-        setSentenceCount(currentText.split('.').filter(item => item.trim() != '').length);
+    }
+    useEffect(() => {
+        let sliceText = currentText;
+        if (excludeSpace) {
+            sliceText = sliceText.replace(/\s/g, '');
+        }
+        setTotalCharacter(sliceText.length);
+        setWordCount(sliceText.split(' ').filter(item => item != '').length);
+        setSentenceCount(sliceText.split('.').filter(item => item.trim() != '').length);
         const freq = new Map();
-        for (const ch of currentText) {
+        for (const ch of sliceText) {
             freq.set(ch.toUpperCase(), (freq.get(ch.toUpperCase()) || 0) + 1);
         }
         setCharFrequency(freq);
-    }, [currentText, excludeSpace]);
+    }, [currentText, excludeSpace, isOpenCharacterLimit, limit]);
 
     return (
         <div
@@ -59,45 +71,70 @@ export const CharacterCounterPage = () => {
             <div>
                 <textarea
                     className="mb-4 text-[1.25rem] p-[0.75rem] rounded-[0.75rem] border-[2px] border-[#E4E4EF] bg-[#F2F2F7]
-                    w-full min-h-[12.5rem]"
+                    w-full min-h-[12.5rem] outline-none focus:border-[#C27CF8] focus:shadow-[0_0_10px_0_#D3A0FA]"
                     placeholder="Type your text here..."
                     value={currentText}
                     onChange={onChange}
+                    onKeyDown={onKeyDown}
                 >
                 </textarea>
+                {(totalCharacter >= limit + 1 && isOpenCharacterLimit) &&
+                    (<>
+                        <div className="text-[#DA3701] font-[400] flex gap-2 items-center mb-4">
+                            <div className="mr-2 size-[0.875rem] border-red-500 rounded-full border-[1px] flex items-center justify-center text-[0.875rem]">i</div>
+                            <span>Limit reached! Your text exceeds {limit} characters.</span>
+                        </div>
+                    </>)
+                }
                 {/* options */}
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div className="flex flex-col gap-3 md:flex-row">
                         <CheckBox
                             checked={excludeSpace}
                             onClick={() => setExcludeSpace(!excludeSpace)}
-                        >Exclude Spaces</CheckBox>
-                        <CheckBox
-                            checked={isOpenCharacterLimit}
-                            onClick={() => setIsOpenCharacterLimit(!isOpenCharacterLimit)}
-                        >Set Character Limit</CheckBox>
+                        >
+                            Exclude Spaces
+                        </CheckBox>
+                        <div className="flex gap-4">
+                            <CheckBox
+                                checked={isOpenCharacterLimit}
+                                onClick={() => setIsOpenCharacterLimit(!isOpenCharacterLimit)}
+                            >
+                                Set Character Limit
+                            </CheckBox>
+                            {isOpenCharacterLimit && <input
+                                type="text"
+                                className="py-1 px-3 w-[3.4375rem] rounded-[0.375rem] border-[1px] border-[#404254]"
+                                value={limit}
+                                onChange={onChangeLimit}
+                            />}
+                        </div>
                     </div>
-                    <div>Approx. reading time: {'<'}1 minute</div>
+                    <div>Apprx. reading time: {'<'}1 minute</div>
                 </div>
             </div>
             {/* main-content  */}
             <main>
                 {/* statics */}
                 <div className="grid grid-cols-1 gap-4 mb-6 md:grid-cols-3">
-                    <div className={cn(cardStyle, 'bg-[#D3A0FA]')}>
-                        <div className="font-[700] text-[2.5rem]">{totalCharacter.toString().padStart(2, "0")}</div>
-                        <div className="text-[1.25rem] font-[400]">Total Characters</div>
-                    </div>
-
-                    <div className={cn(cardStyle, 'bg-[#FF9F00]')}>
-                        <div className="font-[700] text-[2.5rem]">{wordCount.toString().padStart(2, "0")}</div>
-                        <div className="text-[1.25rem] font-[400]">Word Count</div>
-                    </div>
-
-                    <div className={cn(cardStyle, 'bg-[#FE8159]')}>
-                        <div className="font-[700] text-[2.5rem]">{sentenceCount.toString().padStart(2, "0")}</div>
-                        <div className="text-[1.25rem] font-[400]">Sentence Count</div>
-                    </div>
+                    <Card
+                        total={totalCharacter}
+                        className="bg-[#D3A0FA]"
+                    >
+                        Total Characters
+                    </Card>
+                    <Card
+                        total={wordCount}
+                        className="bg-[#FF9F00]"
+                    >
+                        Word Count
+                    </Card>
+                    <Card
+                        total={sentenceCount}
+                        className="bg-[#FE8159]"
+                    >
+                        Sentence Count
+                    </Card>
                 </div>
 
                 {/* letter density  */}

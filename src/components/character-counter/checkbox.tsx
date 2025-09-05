@@ -11,13 +11,12 @@ export const CheckBox = (props: TCheckBox) => {
     const { children, checked, onClick, className } = props;
     return (
         <div
-            className="flex items-center gap-2 p-2 hover:cursor-pointer"
+            className="flex items-center gap-2 p-2 hover:cursor-pointer pl-0"
             onClick={onClick}
         >
             <div
                 className={cn("size-4 rounded-[0.25rem] border-[1px] border-[#12131A] flex items-center justify-center",
                     checked ? 'bg-[#D3A0FA] border-none' : '', className)}
-                id="Exclude-Spaces-Character-Counter"
             >
                 {checked && <span>
                     <svg
