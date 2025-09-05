@@ -10,6 +10,7 @@ export default {
         NotoSans: ['"Noto Sans"', 'sans-serif'],
         Geologica: ['"Geologica"', 'sans-serif'],
         DMSans: ['"DM Sans"', 'sans-serif'],
+        SpaceGrotesk: ['"Space Grotesk"', 'sans-serif'],
       }
     },
   },

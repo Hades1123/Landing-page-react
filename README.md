@@ -3,6 +3,7 @@
 ## Install vite-ts-configPath for absolute path
 ## Install react-router
 ## extend in tailwindcss config is quite usefull when you use font from google font api
+## Mobile first workflow
 
 ---
 ## Browser extension manger
@@ -23,3 +24,6 @@
 3. To use background-image: url(), we can not use it in tailwind className. Instead, we use style
 4. Sort Comparator with tuple
 5. Spread operator
+
+---
+## Web development portfolio
