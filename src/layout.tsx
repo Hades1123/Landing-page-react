@@ -1,40 +1,33 @@
 import { Link } from "react-router-dom"
 import { ContactLink } from "@/components/single-page-developer-portfolio/Link"
-import { technology } from '@/components/single-page-developer-portfolio/data'
+import { socials, technology } from '@/components/single-page-developer-portfolio/data'
 import { project } from '@/components/single-page-developer-portfolio/data'
 import { TechnologyList } from "@/components/single-page-developer-portfolio/TechnologyList"
+import { Form } from "@/components/single-page-developer-portfolio/Form"
+import { useMediaQuery } from "react-responsive"
 
 
 export const LayoutPage = () => {
+    const isMobile = useMediaQuery({ maxWidth: 767 });
+
     return (
         <>
-            <div className="bg-[#151515] min-h-screen text-[#FFF] font-SpaceGrotesk md:p-4 lg:p-40 lg:pt-[4.69rem]">
+            <div className="bg-[#151515] min-h-screen text-[#FFF] font-SpaceGrotesk">
                 <header className="flex flex-col gap-[1.25rem] items-center pt-[1.25rem] px-[7rem]">
-                    <span>Hades</span>
+                    <span className="text-[1.5rem] font-[700]">Hades</span>
                     <ul className="flex justify-between gap-8">
-                        <li>
-                            <Link to={'/character-counter'}>
-                                <img src="/single-page-developer-portfolio/github.svg" alt="github" />
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to={'/character-counter'}>
-                                <img src="/single-page-developer-portfolio/twitter.svg" alt="github" />
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to={'/character-counter'}>
-                                <img src="/single-page-developer-portfolio/LinkedIn.svg" alt="github" />
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to={'/character-counter'}>
-                                <img src="/single-page-developer-portfolio/fuck.svg" alt="github" />
-                            </Link>
-                        </li>
+                        {socials.map(item => {
+                            return (
+                                <li key={item.id + 'header'} className="hover:cursor-pointer">
+                                    <Link to={item.link}>
+                                        <img src={item.icon} alt={item.icon} />
+                                    </Link>
+                                </li>
+                            )
+                        })}
                     </ul>
                 </header>
-                <main className="px-4">
+                <main className="px-4 md:p-4 lg:p-40 lg:pt-[4.69rem]">
                     {/* title  */}
                     <div className="text-center flex flex-col gap-6">
                         <div className="text-center text-[2.5rem] font-[700]">
@@ -78,7 +71,8 @@ export const LayoutPage = () => {
                             return (
                                 <div key={item.link + index} className="flex flex-col gap-[1.25rem]">
                                     <div
-                                        className="w-full aspect-[7/5] overflow-hidden rounded-lg border-2 border-gray-400 relative hover:cursor-pointer">
+                                        className="w-full aspect-[7/5] overflow-hidden rounded-lg border-2 border-gray-400 relative hover:cursor-pointer"
+                                    >
                                         <img
                                             src={item.background}
                                             alt="background"
@@ -93,7 +87,7 @@ export const LayoutPage = () => {
 
                                     <div>
                                         <div className="text-[1.5rem] font-[700] overflow-hidden">{item.title}</div>
-                                        <TechnologyList technologies={item.technology} maxVisible={3} />
+                                        <TechnologyList technologies={item.technology} maxVisible={isMobile ? item.technology.length : 3} />
                                     </div>
 
                                     <div className="flex gap-4 lg:hidden">
@@ -106,19 +100,30 @@ export const LayoutPage = () => {
                     </div>
 
                     {/* contact  */}
-                    <div>
-                        <h2>Contact</h2>
-                        <p>I would love to hear about your project and how I could help. Please fill in the form, and I’ll get back to you as soon as possible.</p>
-                    </div>
                 </main>
-                <footer>
-                    <span>Hades</span>
-                    <ul>
-                        <li><img src="/single-page-developer-portfolio/github.svg" alt="github" /></li>
-                        <li><img src="/single-page-developer-portfolio/LinkedIn.svg" alt="github" /></li>
-                        <li><img src="/single-page-developer-portfolio/twitter.svg" alt="github" /></li>
-                        <li><img src="/single-page-developer-portfolio/fuck.svg" alt="github" /></li>
-                    </ul>
+                <footer className="bg-[#242424] lg:px-[10.31rem] lg:py-[5rem] py-[3.75rem] px-[1rem]">
+                    <div className="grid lg:grid-cols-2 lg:gap-[13.75rem] grid-cols-1 gap-[3.12rem]">
+                        <div className="text-center">
+                            <h2 className="font-[700] lg:text-[5.5rem] text-[2.5rem] md:mb-[2.25rem] mb-[1.25rem]">Contact</h2>
+                            <p className="text-[1.125rem]">I would love to hear about your project and how I could help. Please fill in the form, and I’ll get back to you as soon as possible.</p>
+                        </div>
+                        <Form />
+                    </div>
+                    <hr className="mb-12 mt-[5.44rem]" />
+                    <div className="flex justify-between">
+                        <span className="text-[2rem] font-[700]">Hades</span>
+                        <ul className="flex gap-8">
+                            {socials.map(item => {
+                                return (
+                                    <li key={item.id + 'footer'} className="hover:cursor-pointer">
+                                        <Link to={item.link}>
+                                            <img src={item.icon} alt={item.icon} />
+                                        </Link>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
                 </footer>
             </div>
         </>

@@ -25,7 +25,7 @@ export const TechnologyList = (props: TProps) => {
                         +{hiddenTechs.length} more
                     </span>
                     {/* Tooltip */}
-                    <div className="absolute mb-2 px-3 py-2 bg-[#242424] border border-[#4EE1A0] rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-10 min-w-[24rem]">
+                    <div className="absolute top-8 left-0 mb-2 px-3 py-2 bg-[#242424] border border-[#4EE1A0] rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-10 min-w-[18rem]">
                         <div className="flex gap-2 flex-wrap">
                             {hiddenTechs.map((tech, index) => (
                                 <span

@@ -55,3 +55,16 @@ export const project = [
         code: 'https://github.com/Hades1123/product-preview-card-component-main'
     },
 ]
+
+export const socials = [
+    {
+        id: '97253428-2958-466a-a122-aed396fd3f58',
+        icon: "/single-page-developer-portfolio/github.svg",
+        link: 'https://github.com/Hades1123',
+    },
+    {
+        id: '423cda31-90e4-42a7-a684-698fc6c228ce',
+        icon: "/single-page-developer-portfolio/LinkedIn.svg",
+        link: 'https://www.linkedin.com/in/s%C4%A9-l%C3%AA-nguy%E1%BB%85n-v%C4%83n-048a70280/',
+    },
+]
