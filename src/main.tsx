@@ -6,6 +6,7 @@ import { RouterProvider } from "react-router/dom";
 import { LayoutPage } from '@/layout';
 import BrowserExtension from 'pages/browser-extension-manager';
 import CharacterCounterPage from './pages/character-counter';
+import { EcommerceProductPage } from './pages/ecommerce-product-page';
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
     {
         path: "/character-counter",
         element: <CharacterCounterPage />
+    },
+    {
+        path: "/ecommerce-product-page",
+        element: <EcommerceProductPage />,
     }
 ]);
 

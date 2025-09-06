@@ -54,6 +54,16 @@ export const project = [
         link: 'https://hades1123.github.io/product-preview-card-component-main/',
         code: 'https://github.com/Hades1123/product-preview-card-component-main'
     },
+    {
+        background: "/ecommerce-product-page/ecommerce-product-page.png",
+        title: 'Ecommerce Product Page',
+        technology: [
+            'React',
+            'TailwindCss',
+        ],
+        link: '/ecommerce-product-page',
+        code: 'https://github.com/Hades1123/product-preview-card-component-main'
+    },
 ]
 
 export const socials = [
