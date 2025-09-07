@@ -11,6 +11,7 @@ export default {
         Geologica: ['"Geologica"', 'sans-serif'],
         DMSans: ['"DM Sans"', 'sans-serif'],
         SpaceGrotesk: ['"Space Grotesk"', 'sans-serif'],
+        KumbhSans: ['"Kumbh Sans"', 'sans-serif'],
       }
     },
   },
