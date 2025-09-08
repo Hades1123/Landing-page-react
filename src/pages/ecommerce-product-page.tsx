@@ -6,6 +6,7 @@ import { Menu } from "@/components/ecommerce-product-page/menu";
 import { SliderList } from "@/components/ecommerce-product-page/sliderList";
 import { useState } from "react"
 import { useMediaQuery } from "react-responsive";
+import { NavLink } from "react-router-dom";
 
 export const EcommerceProductPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -50,11 +51,37 @@ export const EcommerceProductPage = () => {
 
     return (
         <>
-            <div className="font-KumbhSans min-h-screen relative md:px-20 md:py-[1.75rem] w-screen lg:px-40 z-0">
+            <div className="font-KumbhSans min-h-screen relative md:px-20 md:py-[1.75rem] w-screen lg:px-40">
                 <header className="pt-[1.31rem] px-[1.48rem] pb-6 flex justify-between md:px-0">
-                    <div className="flex gap-4">
-                        <img src="/ecommerce-product-page/menu.svg" alt="menu" onClick={() => setIsOpenMenu(true)} className="lg:hidden" />
-                        <img src="/ecommerce-product-page/logo.svg" alt="logo" />
+                    <div className="flex gap-4 lg:items-center lg:gap-14">
+                        <img
+                            src="/ecommerce-product-page/menu.svg" alt="menu" onClick={() => setIsOpenMenu(true)} className="lg:hidden"
+                        />
+                        <img src="/ecommerce-product-page/logo.svg" alt="logo" className="max-w-[8.6rem] h-auto" />
+                        {isDesktop && <nav className="text-[0.9375rem] text-[#69707D] font-[400]">
+                            <ul className="flex gap-4">
+                                <li>
+                                    <NavLink to={'#!'}>Collections</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to={'#!'}>Men </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to={'#!'}>Women </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to={'#!'}>About </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to={'#!'}
+                                        className={({ isActive }) => (isActive ?
+                                            'text-[#1D2026] relative after:content-[""] after:absolute after:h-1 after:w-[3.625rem] after:bg-[#FF7E1B] after:left-0 after:-bottom-[73px]'
+                                            : '')}
+                                    >Contact </NavLink>
+                                </li>
+                            </ul>
+                        </nav>}
                     </div>
                     <div className="flex gap-6 items-center">
                         <span className="relative">
@@ -74,10 +101,10 @@ export const EcommerceProductPage = () => {
 
                 <main className="lg:flex lg:gap-32 lg:px-[2.78rem]">
                     <div className="w-full">
-                        <div className="relative overflow-hidden w-full max-h-[18.75rem] md:max-h-[18.125rem] md:rounded-[0.9375rem] md:mb-12 lg:max-h-[18.8125rem] lg:aspect-square">
+                        <div className="relative overflow-hidden w-full  md:rounded-[0.9375rem] md:mb-12 lg:max-h-[22.8125rem] lg:aspect-square">
                             <img
                                 src={products[currentIndex]} alt="img"
-                                className="w-full transition-all duration-400 ease-in-out h-full md:aspect-video lg:aspect-auto lg:object-cover"
+                                className="w-full transition-all duration-400 ease-in-out h-full md:aspect-video lg:aspect-auto lg:object-cover lg:h-auto"
                                 onClick={() => setIsOpenImgGallery(true)}
                             />
                             <div
@@ -122,11 +149,13 @@ export const EcommerceProductPage = () => {
                             <div className="flex flex-col gap-4 md:flex-row">
                                 <div className="flex justify-between rounded-[0.625rem] bg-[#F6F8FD] p-4 items-center w-full md:w-1/2">
                                     <img
+                                        className="p-2 hover:cursor-pointer"
                                         src="/ecommerce-product-page/minus.svg" alt="minus"
                                         onClick={() => setQuantity(Math.max(0, quantity - 1))}
                                     />
                                     <span className="font-[700] text-[#1D2026]">{quantity}</span>
                                     <img
+                                        className="p-2 hover:cursor-pointer"
                                         src="/ecommerce-product-page/plus.svg" alt="plus"
                                         onClick={() => setQuantity(quantity + 1)}
                                     />
@@ -166,6 +195,7 @@ export const EcommerceProductPage = () => {
                 isDesktop={isDesktop}
                 open={isOpenImgGallery}
                 setOpen={setIsOpenImgGallery}
+                index={currentIndex}
             />
         </>
     )

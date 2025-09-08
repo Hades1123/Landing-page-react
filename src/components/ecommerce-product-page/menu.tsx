@@ -18,7 +18,7 @@ export const Menu = (props: IProps) => {
                     <li>Contact</li>
                 </ul>
             </div>
-            {open && <div className="bg-[#000] opacity-75 absolute inset-0 z-10"></div>}
+            {open && <div className="bg-[#000] opacity-75 absolute inset-0 z-10" onClick={() => setOpen(false)}></div>}
         </>
     )
 }
