@@ -2,6 +2,7 @@ import { CartModal } from "@/components/ecommerce-product-page/cart.modal";
 import { useEcommerceContext } from "@/components/ecommerce-product-page/context";
 import { products } from "@/components/ecommerce-product-page/data"
 import { Menu } from "@/components/ecommerce-product-page/menu";
+import { SliderList } from "@/components/ecommerce-product-page/sliderList";
 import { useState } from "react"
 import { useMediaQuery } from "react-responsive";
 
@@ -12,6 +13,7 @@ export const EcommerceProductPage = () => {
     const { shoppingCart, setShoppingCart, total, setTotal } = useEcommerceContext();
     const [isOpenMenu, setIsOpenMenu] = useState(false);
     const isMobile = useMediaQuery({ minWidth: 767 });
+    const isDesktop = useMediaQuery({ minWidth: 1024 });
 
     const onNextProduct = (next: boolean) => {
         if (next) {
@@ -45,55 +47,63 @@ export const EcommerceProductPage = () => {
 
     return (
         <>
-            <div className="font-KumbhSans min-h-screen relative z-0 md:px-20 md:py-[1.75rem] w-screen">
+            <div className="font-KumbhSans min-h-screen relative z-0 md:px-20 md:py-[1.75rem] w-screen lg:px-40">
                 <header className="pt-[1.31rem] px-[1.48rem] pb-6 flex justify-between md:px-0">
                     <div className="flex gap-4">
-                        <img src="/ecommerce-product-page/menu.svg" alt="menu" onClick={() => setIsOpenMenu(true)} />
+                        <img src="/ecommerce-product-page/menu.svg" alt="menu" onClick={() => setIsOpenMenu(true)} className="lg:hidden" />
                         <img src="/ecommerce-product-page/logo.svg" alt="logo" />
                     </div>
-                    <div className="flex gap-6">
+                    <div className="flex gap-6 items-center">
                         <span className="relative">
                             <img
                                 src="/ecommerce-product-page/cart.svg" alt="cart"
                                 onClick={() => setIsOpenCartModal(!isOpenCartModal)}
+                                className="hover:cursor-pointer lg:p-1"
                             />
                             <div className="min-w-[1.1875rem] min-h-[0.8125rem] bg-[#FF7E1B] rounded-[0.40625rem] text-[0.625rem] text-white font-[700] flex items-center justify-center absolute -top-2 -right-2">
                                 <span>{total}</span>
                             </div>
                         </span>
-                        <img src="/ecommerce-product-page/avatar.svg" alt="avatar" />
+                        <img src="/ecommerce-product-page/avatar.svg" alt="avatar" className="lg:size-[3.125rem]" />
                     </div>
                 </header>
                 {isMobile && <div className="bg-[#E4E9F2] h-[0.0625rem] mt-8 mb-12"></div>}
-                <main>
-                    <div className="relative overflow-hidden w-full max-h-[18.75rem] md:max-h-[18.125rem] md:rounded-[0.9375rem] md:mb-12">
-                        <img
-                            src={products[currentIndex]} alt="img"
-                            className="w-full transition-all duration-400 ease-in-out h-full md:aspect-video"
-                        />
-                        <div
-                            className="size-10 bg-white rounded-[1.25rem] flex items-center justify-center absolute left-4
-                        top-1/2 -translate-y-1/2 hover:text-[#FF7E1B] hover:cursor-pointer"
-                            onClick={() => onNextProduct(false)}
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none">
-                                <path d="M7.85718 1.28571L2.14289 6.99999L7.85718 12.7143" stroke="currentColor" strokeWidth="3" />
-                            </svg>
+
+                <main className="lg:flex lg:gap-32 lg:px-[2.78rem]">
+                    <div className="w-full">
+                        <div className="relative overflow-hidden w-full max-h-[18.75rem] md:max-h-[18.125rem] md:rounded-[0.9375rem] md:mb-12 lg:max-h-[18.8125rem] lg:aspect-square">
+                            <img
+                                src={products[currentIndex]} alt="img"
+                                className="w-full transition-all duration-400 ease-in-out h-full md:aspect-video lg:aspect-auto lg:object-cover"
+                            />
+                            <div
+                                className="size-10 bg-white rounded-[1.25rem] flex items-center justify-center absolute left-4
+                            top-1/2 -translate-y-1/2 hover:text-[#FF7E1B] hover:cursor-pointer lg:hidden"
+                                onClick={() => onNextProduct(false)}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none">
+                                    <path d="M7.85718 1.28571L2.14289 6.99999L7.85718 12.7143" stroke="currentColor" strokeWidth="3" />
+                                </svg>
+                            </div>
+                            <div
+                                className="size-10 bg-white rounded-[1.25rem] flex items-center justify-center absolute right-4
+                            top-1/2 -translate-y-1/2 rotate-180 hover:text-[#FF7E1B] hover:cursor-pointer lg:hidden"
+                                onClick={() => onNextProduct(true)}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none">
+                                    <path d="M7.85718 1.28571L2.14289 6.99999L7.85718 12.7143" stroke="currentColor" strokeWidth="3" />
+                                </svg>
+                            </div>
                         </div>
-                        <div
-                            className="size-10 bg-white rounded-[1.25rem] flex items-center justify-center absolute right-4
-                        top-1/2 -translate-y-1/2 rotate-180 hover:text-[#FF7E1B] hover:cursor-pointer"
-                            onClick={() => onNextProduct(true)}
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none">
-                                <path d="M7.85718 1.28571L2.14289 6.99999L7.85718 12.7143" stroke="currentColor" strokeWidth="3" />
-                            </svg>
-                        </div>
+                        {isDesktop && <SliderList
+                            currentIndex={currentIndex}
+                            setCurrentIndex={setCurrentIndex}
+                        />}
                     </div>
                     {/* main content  */}
-                    <div className="px-6 pt-6 flex flex-col gap-4 md:px-0 md:gap-6">
+                    <div className="px-6 pt-6 flex flex-col gap-4 md:px-0 md:gap-6 lg:gap-8">
                         <div className="text-[#69707D] text-[0.75rem] font-[700] md:text-[0.8125rem]">SNEAKER COMPANY</div>
-                        <h1 className="text-[1.75rem] font-[700] md:text-[2.75rem]">Fall Limited Edition Sneakers</h1>
+                        <h1 className="text-[1.75rem] font-[700] md:text-[2.75rem] leading-[3rem]">Fall Limited Edition Sneakers</h1>
                         <p className="text-[0.9375rem] font-[400] text-[#69707D] md:text-[1rem]">These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.</p>
                         <div>
                             {/* price  */}
