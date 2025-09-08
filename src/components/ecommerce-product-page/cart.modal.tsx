@@ -4,17 +4,23 @@ import bin from '/ecommerce-product-page/bin.svg'
 
 interface IProp {
     open: boolean;
+    setOpen: (v: boolean) => void;
 }
 
 export const CartModal = (props: IProp) => {
-    const { open } = props;
+    const { open, setOpen } = props;
     const { shoppingCart, setShoppingCart, total, setTotal } = useEcommerceContext();
     return (
         <>
             {open &&
-                <div className="bg-white min-h-[13rem] absolute top-[4.75rem] right-1/2 translate-x-1/2 w-[calc(100%-0.5rem)]
-                rounded-[0.625rem] shadow-[0_20px_50px_-20px_rgba(29,32,38,0.10)] overflow-auto max-h-[25rem]">
-                    <h3 className="font-[700] py-6 px-[0.75rem] ">Cart</h3>
+                <div className="bg-white min-h-[13rem] absolute top-[4.75rem] right-1/2 translate-x-1/2 w-[22.5rem]
+                rounded-[0.625rem] shadow-[0_20px_50px_-20px_rgba(29,32,38,0.10)] overflow-auto max-h-[25rem] md:translate-x-0 md:right-4"
+                    style={{ boxShadow: 'rgba(128, 128, 128, 0.6)' }}
+                >
+                    <div className="flex justify-between items-center py-6 px-[0.75rem]">
+                        <h3 className="font-[700]">Cart</h3>
+                        <span className=" text-gray-500 rotate-45 text-2xl hover:cursor-pointer" onClick={() => setOpen(false)}>+</span>
+                    </div>
                     <hr />
                     {/* product list  */}
                     <div className="relative min-h-[11.44rem]">
