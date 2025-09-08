@@ -27,3 +27,7 @@
 
 ---
 ## Web development portfolio
+
+---
+## Ecommerce product page
+1. layers : main page < overlay < modal/sidebar = z-0 < z-10 < z-20

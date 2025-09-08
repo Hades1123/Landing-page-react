@@ -1,6 +1,7 @@
 import { CartModal } from "@/components/ecommerce-product-page/cart.modal";
 import { useEcommerceContext } from "@/components/ecommerce-product-page/context";
 import { products } from "@/components/ecommerce-product-page/data"
+import { ImageGallery } from "@/components/ecommerce-product-page/image.gallery";
 import { Menu } from "@/components/ecommerce-product-page/menu";
 import { SliderList } from "@/components/ecommerce-product-page/sliderList";
 import { useState } from "react"
@@ -10,10 +11,12 @@ export const EcommerceProductPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isOpenCartModal, setIsOpenCartModal] = useState(false);
     const [quantity, setQuantity] = useState(0);
-    const { shoppingCart, setShoppingCart, total, setTotal } = useEcommerceContext();
     const [isOpenMenu, setIsOpenMenu] = useState(false);
+    const [isOpenImgGallery, setIsOpenImgGallery] = useState(false);
+
     const isMobile = useMediaQuery({ minWidth: 767 });
     const isDesktop = useMediaQuery({ minWidth: 1024 });
+    const { shoppingCart, setShoppingCart, total, setTotal } = useEcommerceContext();
 
     const onNextProduct = (next: boolean) => {
         if (next) {
@@ -47,7 +50,7 @@ export const EcommerceProductPage = () => {
 
     return (
         <>
-            <div className="font-KumbhSans min-h-screen relative z-0 md:px-20 md:py-[1.75rem] w-screen lg:px-40">
+            <div className="font-KumbhSans min-h-screen relative md:px-20 md:py-[1.75rem] w-screen lg:px-40 z-0">
                 <header className="pt-[1.31rem] px-[1.48rem] pb-6 flex justify-between md:px-0">
                     <div className="flex gap-4">
                         <img src="/ecommerce-product-page/menu.svg" alt="menu" onClick={() => setIsOpenMenu(true)} className="lg:hidden" />
@@ -75,10 +78,11 @@ export const EcommerceProductPage = () => {
                             <img
                                 src={products[currentIndex]} alt="img"
                                 className="w-full transition-all duration-400 ease-in-out h-full md:aspect-video lg:aspect-auto lg:object-cover"
+                                onClick={() => setIsOpenImgGallery(true)}
                             />
                             <div
                                 className="size-10 bg-white rounded-[1.25rem] flex items-center justify-center absolute left-4
-                            top-1/2 -translate-y-1/2 hover:text-[#FF7E1B] hover:cursor-pointer lg:hidden"
+                                top-1/2 -translate-y-1/2 hover:text-[#FF7E1B] hover:cursor-pointer lg:hidden"
                                 onClick={() => onNextProduct(false)}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none">
@@ -87,7 +91,7 @@ export const EcommerceProductPage = () => {
                             </div>
                             <div
                                 className="size-10 bg-white rounded-[1.25rem] flex items-center justify-center absolute right-4
-                            top-1/2 -translate-y-1/2 rotate-180 hover:text-[#FF7E1B] hover:cursor-pointer lg:hidden"
+                                top-1/2 -translate-y-1/2 rotate-180 hover:text-[#FF7E1B] hover:cursor-pointer lg:hidden"
                                 onClick={() => onNextProduct(true)}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none">
@@ -157,6 +161,11 @@ export const EcommerceProductPage = () => {
             <CartModal
                 open={isOpenCartModal}
                 setOpen={setIsOpenCartModal}
+            />
+            <ImageGallery
+                isDesktop={isDesktop}
+                open={isOpenImgGallery}
+                setOpen={setIsOpenImgGallery}
             />
         </>
     )
