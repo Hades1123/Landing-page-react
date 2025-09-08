@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { products } from "./data";
 import { SliderList } from "./sliderList";
+import { tw } from "@/libs/cn";
 
 interface IProps {
     isDesktop: boolean;
@@ -72,6 +73,7 @@ export const ImageGallery = (props: IProps) => {
                             currentIndex={currentIndex}
                             setCurrentIndex={setCurrentIndex}
                             className="flex justify-around"
+                            size={tw('size-[3.5rem]')}
                         />
                     </div>
                 </>
